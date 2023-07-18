@@ -45,7 +45,7 @@
               owner = "pythoneda-shared-pythoneda";
               repo = "domain";
               rev = version;
-              sha256 = "sha256-QlToKDJYnotB/n1XuFarvwGESQWoHeF/xmDUuwz6zOQ=";
+              sha256 = "sha256-3UBGoiaJYjccsa6bnXlRfF4JkZBKUi2WdvLEnxHsWtY=";
             };
 
             format = "pyproject";
