@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "pythoneda-artifact-infrastructure-base"
+version = "0.0.1a2"
+description = "Artifact space for pythoneda-infrastructure/base"
+authors = ["rydnr <github@acm-sl.org>"]
+readme = "README.md"
+homepage = "https://github.com/pythoneda-artifact/infrastructure-base"
+packages = [{include = "pythonedaartifactinfrastructurebase"}]
+
+[tool.poetry.dependencies]
+dulwich = "^0.21.5"
+GitPython = "^3.1.27"
+paramiko = "^2.11.0"
+python = "^3.8"
+pythoneda-base = "^0.0.1a15"
+pythoneda-shared-git = "^0.0.1a3"
+pythoneda-artifact-event-git-tagging = "^0.0.1a1"
+semver = "^3.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
