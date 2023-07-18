@@ -38,6 +38,7 @@
               desc = description;
               inherit homepage pname pythonMajorMinorVersion pythonpackage
                 version;
+              package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
               src = pyprojectTemplateFile;
             };
             src = pkgs.fetchFromGitHub {
