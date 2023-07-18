@@ -50,29 +50,90 @@ class FixPythonPath():
         super().__init__()
 
     @classmethod
-    def fix_syspath(cls):
+    def find_modules_under(cls, rootFolder:str) -> List[str]:
         """
-        Fixes the sys.path collection to avoid duplicated entries for the specific project
-        this class is defined.
+        Retrieves the names of the Python modules under given folder.
+        :param rootFolder: The root folder.
+        :type rootFolder: str
+        :return: The list of Python modules.
+        :rtype: List[str]
         """
-        current_folder = Path(os.getcwd()).resolve()
-        root_folder = current_folder.parent.parent
+        result = []
+
+        for dirpath, dirnames, filenames in os.walk(rootFolder):
+            if '__init__.py' in filenames:
+                module = os.path.relpath(dirpath, start=rootFolder)
+                if module not in result:
+                    result.append(module)
+
+        return result
+
+    @classmethod
+    def find_modules_under_pythoneda(cls, rootFolder:str) -> List[str]:
+        """
+        Retrieves the names of the Python modules under given folder.
+        :param rootFolder: The root folder.
+        :type rootFolder: str
+        :return: The list of Python modules.
+        :rtype: List[str]
+        """
+        result = []
+
+        for dirpath, dirnames, filenames in os.walk(rootFolder):
+            if '__init__.py' in filenames:
+                aux = os.path.relpath(dirpath, start=rootFolder)
+                parts = aux.split("/", 2)
+                if len(parts) > 2:
+                    module = parts[2].replace("/", ".")
+                    if module not in result:
+                        result.append(module)
+
+        return result
+
+    @classmethod
+    def find_path_of_pythoneda_package_with_modules(cls, rootFolder:str, modules:List[str]) -> str:
+        """
+        Retrieves the path of the package with given modules.
+        :param rootFolder: The root folder.
+        :type rootFolder: str
+        :param modules: The list of modules.
+        :type modules: List[str]
+        :return: The path.
+        :rtype: str
+        """
+        module_paths = [module.replace('.', '/') + '/__init__.py' for module in modules]
+        module_set = set(modules)
+        _, orgs, _ = next(os.walk(rootFolder))
+        for org in orgs:
+            org_folder, repos, _ = next(os.walk(Path(rootFolder) / org))
+            for repo in repos:
+                current_modules = cls.find_modules_under(Path(org_folder) / repo)
+                if set(current_modules) == module_set:
+                    return Path(org_folder) / repo
+
+        # If no directory contains all modules, return None
+        return None
+
+    @classmethod
+    def fix_syspath(cls, rootFolder: str) -> str:
+        """
+        Fixes the sys.path collection replacing any PythonEDA entries.
+        :param rootFolder: The root folder.
+        :type rootFolder: str
+        :return: The new syspath.
+        :rtype: str
+        """
+        custom_modules = cls.find_modules_under_pythoneda(rootFolder)
         paths_to_remove = []
         paths_to_remove.append(Path(__file__).resolve().parent)
         paths_to_add = []
-        break_python_module_loop = False
-        for first_folder in [ name for name in os.listdir(root_folder) if os.path.isdir(os.path.join(root_folder, name)) and name.startswith('pythoneda') ]:
-            for second_folder in [ name for name in os.listdir(root_folder / first_folder) if os.path.isdir(root_folder / first_folder / name) ]:
-                for python_module in [ name for name in os.listdir(root_folder / first_folder / second_folder) if os.path.isdir(root_folder / first_folder / second_folder / name) and (root_folder / first_folder / second_folder / name / "__init__.py").exists() ]:
-                    for path in sys.path:
-                        if os.path.isdir(Path(path) / python_module):
-                            paths_to_add.append(str(root_folder / first_folder / second_folder))
-                            break_python_module_loop = True
-                            paths_to_remove.append(path)
-                            break
-                    if break_python_module_loop:
-                        break_python_module_loop = False
-                        break
+        for path in sys.path:
+            modules_under_path = cls.find_modules_under(path)
+            if len(modules_under_path) > 0 and all(item in custom_modules for item in modules_under_path):
+                paths_to_remove.append(path)
+                package_path = cls.find_path_of_pythoneda_package_with_modules(rootFolder, modules_under_path)
+                if package_path:
+                    paths_to_add.append(package_path)
 
         for path in paths_to_remove:
             if str(path) in sys.path:
@@ -100,8 +161,11 @@ class FixPythonPath():
         :type file: str
         """
         cls()
-        cls.fix_syspath()
+        current_folder = Path(os.getcwd()).resolve()
+        root_folder = current_folder.parent.parent
+        cls.fix_syspath(root_folder)
         cls.print_syspath()
+
 
 if __name__ == "__main__":
 
