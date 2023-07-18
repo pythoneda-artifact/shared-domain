@@ -1,5 +1,5 @@
 {
-  description = "Artifact space for pythoneda-shared-pythoneda/domain";
+  description = "Support for event-driven architectures in Python";
   inputs = rec {
     nixos.url = "github:NixOS/nixpkgs/nixos-23.05";
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
@@ -9,10 +9,10 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixos { inherit system; };
-        description = "Artifact space for pythoneda-shared-pythoneda/domain";
+        description = "Support for event-driven architectures in Python";
         license = pkgs.lib.licenses.gpl3;
-        homepage = "https://github.com/pythoneda-shared-pythoneda/artifact";
-        maintainers = with pkgs.lib.maintainers; [ ];
+        homepage = "https://github.com/pythoneda-shared-pythoneda/domain";
+        maintainers = [ "rydnr <github@acm-sl.org>" ];
         nixpkgsRelease = "nixos-23.05";
         shared = import ./nix/shared.nix;
         pythoneda-shared-pythoneda-domain-for = { python, version }:
@@ -31,10 +31,14 @@
             inherit pname version;
             projectDir = ./.;
             scripts = ./scripts;
-            pyprojectTemplateFile = ./domain.pyprojecttoml.template;
+            pyprojectTemplateFile = ./pyprojecttoml.template;
             pyprojectTemplate = pkgs.substituteAll {
+              authors = builtins.concatStringsSep ","
+                (map (item: ''"${item}"'') maintainers);
+              desc = description;
+              inherit homepage pname pythonMajorMinorVersion pythonpackage
+                version;
               src = pyprojectTemplateFile;
-              inherit pname pythonMajorMinorVersion pythonpackage version;
             };
             src = pkgs.fetchFromGitHub {
               owner = "pythoneda-shared-pythoneda";

@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "@pname@"
 version = "@version@"
-description = "Support for EDA applications in Python"
-authors = ["rydnr <github@acm-sl.org>"]
+description = "@desc@"
+authors = [ @authors@ ]
 readme = "README.md"
-homepage = "https://github.com/pythoneda-shared-pythoneda/domain"
+homepage = "@homepage@"
 packages = [{include = "@pythonpackage@"}]
 
 [tool.poetry.dependencies]
