@@ -1,3 +1,3 @@
-# infrastructure-base
+# Artifact space for pythoneda-shared-pythoneda/domain
 
-This is the artifact-scope package for [pythoneda-infrastructure/base](https://github.com/pythoneda-infrastructure/base "pythoneda-infrastructure/base").
+This is the artifact space for [pythoneda-shared-pythoneda/domain](https://github.com/pythoneda-shared-pythoneda/domain "pythoneda-shared-pythoneda/domain").

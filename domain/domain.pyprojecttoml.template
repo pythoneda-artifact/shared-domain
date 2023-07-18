@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "@pname@"
+version = "@version@"
+description = "Support for EDA applications in Python"
+authors = ["rydnr <github@acm-sl.org>"]
+readme = "README.md"
+homepage = "https://github.com/pythoneda-shared-pythoneda/domain"
+packages = [{include = "@pythonpackage@"}]
+
+[tool.poetry.dependencies]
+python = "^@pythonMajorMinorVersion@"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
