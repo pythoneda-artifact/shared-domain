@@ -64,7 +64,7 @@ class FixPythonPath():
             if '__init__.py' in filenames:
                 module = os.path.relpath(dirpath, start=rootFolder)
                 if module not in result:
-                    result.append(module)
+                    result.append(module.replace("/", "."))
 
         return result
 
@@ -101,13 +101,15 @@ class FixPythonPath():
         :return: The path.
         :rtype: str
         """
-        module_paths = [module.replace('.', '/') + '/__init__.py' for module in modules]
+        print(f'rootFolder -> {rootFolder}, modules -> {modules}')
+        print(f'module_list -> {modules}')
         module_set = set(modules)
         _, orgs, _ = next(os.walk(rootFolder))
         for org in orgs:
             org_folder, repos, _ = next(os.walk(Path(rootFolder) / org))
             for repo in repos:
                 current_modules = cls.find_modules_under(Path(org_folder) / repo)
+                print(f'org -> {org_folder}, repo -> {repo}, current_modules -> {set(current_modules)}, modules -> {module_set}')
                 if set(current_modules) == module_set:
                     return Path(org_folder) / repo
 
@@ -123,15 +125,19 @@ class FixPythonPath():
         :return: The new syspath.
         :rtype: str
         """
-        custom_modules = cls.find_modules_under_pythoneda(rootFolder)
+        custom_modules = set(cls.find_modules_under_pythoneda(rootFolder))
+        print(f'custom_modules -> {custom_modules}')
         paths_to_remove = []
         paths_to_remove.append(Path(__file__).resolve().parent)
         paths_to_add = []
         for path in sys.path:
             modules_under_path = cls.find_modules_under(path)
+            print(f'modules_under_path of {path} -> {modules_under_path}')
+#            print(f'modules under {path} -> {modules_under_path}, custom_modules -> {custom_modules}')
             if len(modules_under_path) > 0 and all(item in custom_modules for item in modules_under_path):
                 paths_to_remove.append(path)
                 package_path = cls.find_path_of_pythoneda_package_with_modules(rootFolder, modules_under_path)
+                print(f'replacing {path} with {package_path}')
                 if package_path:
                     paths_to_add.append(package_path)
 
@@ -164,6 +170,7 @@ class FixPythonPath():
         current_folder = Path(os.getcwd()).resolve()
         root_folder = current_folder.parent.parent
         cls.fix_syspath(root_folder)
+#        print(cls.find_modules_under("/nix/store/1dh6fn223gzzzif3bjk7xiy4kfz3krdr-python3.10-pythoneda-shared-artifact-changes-shared-0.0.1a3/lib/python3.10/site-packages"))
         cls.print_syspath()
 
 
