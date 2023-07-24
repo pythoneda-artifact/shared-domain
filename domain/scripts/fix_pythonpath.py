@@ -60,7 +60,9 @@ class FixPythonPath():
         """
         result = []
 
+        exclude_dirs = {'.git', '__pycache__'}
         for dirpath, dirnames, filenames in os.walk(rootFolder):
+            dirnames[:] = [d for d in dirnames if d not in exclude_dirs ]
             if '__init__.py' in filenames:
                 module = os.path.relpath(dirpath, start=rootFolder)
                 if module not in result:
@@ -79,7 +81,9 @@ class FixPythonPath():
         """
         result = []
 
+        exclude_dirs = {'.git', '__pycache__'}
         for dirpath, dirnames, filenames in os.walk(rootFolder):
+            dirnames[:] = [d for d in dirnames if d not in exclude_dirs ]
             if '__init__.py' in filenames:
                 aux = os.path.relpath(dirpath, start=rootFolder)
                 parts = aux.split("/", 2)
@@ -102,9 +106,12 @@ class FixPythonPath():
         :rtype: str
         """
         module_set = set(modules)
+        exclude_dirs = {'.git', '__pycache__'}
         _, orgs, _ = next(os.walk(rootFolder))
+        orgs[:] = [d for d in orgs if d not in exclude_dirs ]
         for org in orgs:
             org_folder, repos, _ = next(os.walk(Path(rootFolder) / org))
+            repos[:] = [d for d in repos if d not in exclude_dirs ]
             for repo in repos:
                 current_modules = cls.find_modules_under(Path(org_folder) / repo)
                 if set(current_modules) == module_set:
