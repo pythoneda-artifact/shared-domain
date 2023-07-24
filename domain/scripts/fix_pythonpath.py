@@ -135,7 +135,6 @@ class FixPythonPath():
         paths_to_add = []
         for path in sys.path:
             modules_under_path = cls.find_modules_under(path)
-            print(f'modules_under_path({path}) -> {modules_under_path}')
             if len(modules_under_path) > 0 and all(item in custom_modules for item in modules_under_path):
                 package_path = cls.find_path_of_pythoneda_package_with_modules(rootFolder, modules_under_path)
                 if package_path:
