@@ -142,7 +142,7 @@ class FixPythonPath():
                     paths_to_remove.append(path)
                     paths_to_add.append(package_path)
                 else:
-                    sys.stderr.write(f'Warning: Could not find alternate path for {path}')
+                    sys.stderr.write(f'Warning: Could not find alternate path for {path}\n')
 
         for path in paths_to_remove:
             if str(path) in sys.path:
