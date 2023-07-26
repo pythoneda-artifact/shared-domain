@@ -75,64 +75,64 @@
               inherit description homepage license maintainers;
             };
           };
-        pythoneda-shared-pythoneda-domain-0_0_1a24-for = { python }:
+        pythoneda-shared-pythoneda-domain-0_0_1a25-for = { python }:
           pythoneda-shared-pythoneda-domain-for {
-            version = "0.0.1a24";
+            version = "0.0.1a25";
             inherit python;
           };
       in rec {
         packages = rec {
-          pythoneda-shared-pythoneda-domain-0_0_1a24-python38 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-for {
+          pythoneda-shared-pythoneda-domain-0_0_1a25-python38 =
+            pythoneda-shared-pythoneda-domain-0_0_1a25-for {
               python = pkgs.python38;
             };
-          pythoneda-shared-pythoneda-domain-0_0_1a24-python39 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-for {
+          pythoneda-shared-pythoneda-domain-0_0_1a25-python39 =
+            pythoneda-shared-pythoneda-domain-0_0_1a25-for {
               python = pkgs.python39;
             };
-          pythoneda-shared-pythoneda-domain-0_0_1a24-python310 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-for {
+          pythoneda-shared-pythoneda-domain-0_0_1a25-python310 =
+            pythoneda-shared-pythoneda-domain-0_0_1a25-for {
               python = pkgs.python310;
             };
           pythoneda-shared-pythoneda-domain-latest-python38 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-python38;
+            pythoneda-shared-pythoneda-domain-0_0_1a25-python38;
           pythoneda-shared-pythoneda-domain-latest-python39 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-python39;
+            pythoneda-shared-pythoneda-domain-0_0_1a25-python39;
           pythoneda-shared-pythoneda-domain-latest-python310 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-python310;
+            pythoneda-shared-pythoneda-domain-0_0_1a25-python310;
           pythoneda-shared-pythoneda-domain-latest =
             pythoneda-shared-pythoneda-domain-latest-python310;
           default = pythoneda-shared-pythoneda-domain-latest;
         };
         defaultPackage = packages.default;
         devShells = rec {
-          pythoneda-shared-pythoneda-domain-0_0_1a24-python38 =
+          pythoneda-shared-pythoneda-domain-0_0_1a25-python38 =
             shared.devShell-for {
               package =
-                packages.pythoneda-shared-pythoneda-domain-0_0_1a24-python38;
+                packages.pythoneda-shared-pythoneda-domain-0_0_1a25-python38;
               python = pkgs.python38;
               inherit pkgs nixpkgsRelease;
             };
-          pythoneda-shared-pythoneda-domain-0_0_1a24-python39 =
+          pythoneda-shared-pythoneda-domain-0_0_1a25-python39 =
             shared.devShell-for {
               package =
-                packages.pythoneda-shared-pythoneda-domain-0_0_1a24-python39;
+                packages.pythoneda-shared-pythoneda-domain-0_0_1a25-python39;
               python = pkgs.python39;
               inherit pkgs nixpkgsRelease;
             };
-          pythoneda-shared-pythoneda-domain-0_0_1a24-python310 =
+          pythoneda-shared-pythoneda-domain-0_0_1a25-python310 =
             shared.devShell-for {
               package =
-                packages.pythoneda-shared-pythoneda-domain-0_0_1a24-python310;
+                packages.pythoneda-shared-pythoneda-domain-0_0_1a25-python310;
               python = pkgs.python310;
               inherit pkgs nixpkgsRelease;
             };
           pythoneda-shared-pythoneda-domain-latest-python38 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-python38;
+            pythoneda-shared-pythoneda-domain-0_0_1a25-python38;
           pythoneda-shared-pythoneda-domain-latest-python39 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-python39;
+            pythoneda-shared-pythoneda-domain-0_0_1a25-python39;
           pythoneda-shared-pythoneda-domain-latest-python310 =
-            pythoneda-shared-pythoneda-domain-0_0_1a24-python310;
+            pythoneda-shared-pythoneda-domain-0_0_1a25-python310;
           pythoneda-shared-pythoneda-domain-latest =
             pythoneda-shared-pythoneda-domain-latest-python310;
           default = pythoneda-shared-pythoneda-domain-latest;
