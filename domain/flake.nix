@@ -65,6 +65,13 @@
             '';
 
             postInstall = ''
+              pushd /build/$sourceRoot
+              for f in $(find . -name '__init__.py'); do
+                if [[ ! -e $out/lib/python${pythonMajorMinorVersion}/site-packages/$f ]]; then
+                  cp $f $out/lib/python${pythonMajorMinorVersion}/site-packages/$f;
+                fi
+              done
+              popd
               mkdir $out/dist
               cp -r ${scripts} $out/dist/scripts
               cp dist/${wheelName} $out/dist
