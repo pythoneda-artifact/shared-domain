@@ -31,8 +31,8 @@
     with inputs;
     flake-utils.lib.eachDefaultSystem (system:
       let
-        org = "pythoneda-realm-rydnr";
-        repo = "application";
+        org = "pythoneda-shared-pythoneda";
+        repo = "domain";
         version = "0.0.1a25";
         sha256 = "sha256-3UBGoiaJYjccsa6bnXlRfF4JkZBKUi2WdvLEnxHsWtY=";
         pname = "${org}-${repo}";
