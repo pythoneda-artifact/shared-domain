@@ -136,11 +136,9 @@ class FixPythonPath():
         paths_to_remove.append(Path(__file__).resolve().parent)
         paths_to_add = []
         for path in sys.path:
-            print(f'checking {path}')
             modules_under_path = cls.find_modules_under(path)
             if len(modules_under_path) > 0 and all(item in custom_modules for item in modules_under_path):
                 package_path = cls.find_path_of_pythoneda_package_with_modules(rootFolder, modules_under_path)
-                print(f'package_path: {package_path}')
                 if package_path:
                     paths_to_remove.append(path)
                     paths_to_add.append(package_path)
