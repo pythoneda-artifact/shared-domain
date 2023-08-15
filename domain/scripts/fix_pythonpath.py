@@ -63,8 +63,6 @@ class FixPythonPath():
         exclude_dirs = {'.git', '__pycache__'}
         for dirpath, dirnames, filenames in os.walk(rootFolder):
             dirnames[:] = [d for d in dirnames if d not in exclude_dirs ]
-            if rootFolder == '/nix/store/rqdadkc8dmhjfglc62bihplxz3h17xza-python3.10-pythoneda-realm-rydnr-infrastructure-0.0.1a1/lib/python3.10/site-packages':
-                print(f'dirpath {dirpath}, dirnames {dirnames}, filenames {filenames}')
             if '__init__.py' in filenames:
                 module = os.path.relpath(dirpath, start=rootFolder)
                 if module not in result:
