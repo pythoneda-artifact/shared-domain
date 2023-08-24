@@ -114,9 +114,11 @@ class FixPythonPath():
         # If no directory contains all modules, return None
         return None
 
-    def syspath_for_nix_develop(self, rootFolder: str) -> List:
+    def syspath_for_nix_develop(self, sysPath:List, rootFolder: str) -> List:
         """
         Fixes the sys.path collection replacing any PythonEDA entries with their development folders.
+        :param sysPath: The sys.path list.
+        :type sysPath: List
         :param rootFolder: The root folder.
         :type rootFolder: str
         :return: An alternate sys.path.
@@ -124,30 +126,38 @@ class FixPythonPath():
         """
         result = []
         custom_modules = set(self.find_modules_under_pythoneda(rootFolder))
-        for path in sys.path:
+        for path in sysPath:
             modules_under_path = self.find_modules_under(path)
-            if len(modules_under_path) > 0 and all(item in custom_modules for item in modules_under_path):
-                package_path = self.find_path_of_pythoneda_package_with_modules(rootFolder, modules_under_path)
-                if package_path:
-                    result.append(str(package_path))
+            if len(modules_under_path) > 0 and modules_under_path[0] == 'pythoneda':
+                if all(item in custom_modules for item in modules_under_path):
+                    package_path = self.find_path_of_pythoneda_package_with_modules(rootFolder, modules_under_path)
+                    if package_path:
+                        result.append(str(package_path))
+                    else:
+                        result.append(path)
+                        sys.stderr.write(f'Warning: Could not find alternate path for {path}\n')
                 else:
-                    result.append(path)
-                    sys.stderr.write(f'Warning: Could not find alternate path for {path}\n')
+                    sys.stderr.write(f'Warning: submodules mismatch for {path}\n')
+#                    for item in modules_under_path:
+#                        if item not in custom_modules:
+#                            print(f'{item} not present in {custom_modules}')
             else:
                 result.append(path)
 
         return result
 
-    def sort_syspath(self) -> List:
+    def sort_syspath(self, sysPath:List) -> List:
         """
         Sorts the sys.path entries according to the depth of their .root files.
+        :param sysPath: The sys.path list.
+        :type sysPath: List
         :return: The new syspath.
         :rtype: List
         """
         unaffected = []
         affected = []
         weights = {}
-        for path in sys.path:
+        for path in sysPath:
             depth = self.find_root_depth(path)
             if depth is None:
                 unaffected.append(path)
@@ -222,11 +232,13 @@ class FixPythonPath():
         """
         return len(Path(path).parts)
 
-    def print_syspath(self):
+    def print_syspath(self, sysPath:List):
         """
         Prints the syspath so it can be used to define the PYTHONPATH variable.
+        :param sysPath: The sys.path list.
+        :type sysPath: List
         """
-        print(":".join(sys.path))
+        print(":".join(sysPath))
 
     @classmethod
     def main(cls):
@@ -255,12 +267,12 @@ class FixPythonPath():
             current_folder = Path(os.getcwd()).resolve()
             root_folder = current_folder.parent.parent
 
-        sys.path = instance.sort_syspath()
+        sys.path = instance.sort_syspath(sys.path)
 
         if args.command == "development":
-            sys.path = instance.syspath_for_nix_develop(root_folder)
+            sys.path = instance.syspath_for_nix_develop(sys.path, root_folder)
 
-        instance.print_syspath()
+        instance.print_syspath(sys.path)
 
 if __name__ == "__main__":
 

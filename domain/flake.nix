@@ -22,7 +22,7 @@
     nixos.url = "github:NixOS/nixpkgs/nixos-23.05";
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
     pythoneda-shared-pythoneda-banner = {
-      url = "github:pythoneda-shared-pythoneda/banner/0.0.1a13";
+      url = "github:pythoneda-shared-pythoneda/banner/0.0.1a16";
       inputs.nixos.follows = "nixos";
       inputs.flake-utils.follows = "flake-utils";
     };
@@ -33,8 +33,8 @@
       let
         org = "pythoneda-shared-pythoneda";
         repo = "domain";
-        version = "0.0.1a27";
-        sha256 = "sha256-wlsPkVNsaczLOy4++9583/4NMnyA2+PfXUSk2TF782A=";
+        version = "0.0.1a28";
+        sha256 = "sha256-+FdS5aBvTe/sOjeLP5Llu8/QsFiXCJsBTFXhsbxny8M=";
         pname = "${org}-${repo}";
         pkgs = import nixos { inherit system; };
         description = "Support for event-driven architectures in Python";
