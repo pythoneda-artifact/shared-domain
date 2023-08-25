@@ -33,8 +33,8 @@
       let
         org = "pythoneda-shared-pythoneda";
         repo = "domain";
-        version = "0.0.1a30";
-        sha256 = "sha256-rx0LMsHMhMaHaKpwgVVJXCA4cH2eunsQyZWg8ZXQdF8=";
+        version = "0.0.1a31";
+        sha256 = "sha256-kf4IxJlsvyXdYjXXLc6XGHaaO4slnWGeH5iuhofxWTw=";
         pname = "${org}-${repo}";
         pkgs = import nixos { inherit system; };
         description = "Support for event-driven architectures in Python";
