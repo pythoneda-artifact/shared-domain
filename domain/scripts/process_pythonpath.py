@@ -135,12 +135,12 @@ class FixPythonPath():
                         result.append(str(package_path))
                     else:
                         result.append(path)
-                        sys.stderr.write(f'Warning: Could not find alternate path for {path}\n')
+                        sys.stderr.write(f'Warning: Could not find alternate path for {path} under {rootFolder} containing modules {modules_under_path}\n')
                 else:
-                    sys.stderr.write(f'Warning: submodules mismatch for {path}\n')
-#                    for item in modules_under_path:
-#                        if item not in custom_modules:
-#                            print(f'{item} not present in {custom_modules}')
+                    sys.stderr.write(f'Warning: submodules mismatch for {path}:\n')
+                    for item in modules_under_path:
+                        if item not in custom_modules:
+                            sys.stderr.write(f'- {item} not present in {custom_modules}\n')
             else:
                 result.append(path)
 
