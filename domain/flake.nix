@@ -33,8 +33,8 @@
       let
         org = "pythoneda-shared-pythoneda";
         repo = "domain";
-        version = "0.0.1a35";
-        sha256 = "sha256-tcewRpBLb7mFZRYu0jZUmXKNgoZS0z+74Gf5MAPmW4I=";
+        version = "0.0.1a36";
+        sha256 = "sha256-8ZIhVHiRNyOS4FjHrFaxrXicrCb5tpgv7mXLvoPJkkU=";
         pname = "${org}-${repo}";
         pkgs = import nixos { inherit system; };
         description = "Support for event-driven architectures in Python";
@@ -115,7 +115,7 @@
         devShells = rec {
           default = pythoneda-shared-pythoneda-domain-default;
           pythoneda-shared-pythoneda-domain-default =
-            pythoneda-shared-pythoneda-domain-python310;
+            pythoneda-shared-pythoneda-domain-python311;
           pythoneda-shared-pythoneda-domain-python38 = shared.devShell-for {
             package = packages.pythoneda-shared-pythoneda-domain-python38;
             pythoneda-shared-pythoneda-domain =
@@ -143,17 +143,30 @@
             python = pkgs.python310;
             inherit archRole layer nixpkgsRelease org pkgs repo space;
           };
+          pythoneda-shared-pythoneda-domain-python311 = shared.devShell-for {
+            package = packages.pythoneda-shared-pythoneda-domain-python311;
+            pythoneda-shared-pythoneda-domain =
+              packages.pythoneda-shared-pythoneda-domain-python311;
+            pythoneda-shared-pythoneda-banner =
+              pythoneda-shared-pythoneda-banner.packages.${system}.pythoneda-shared-pythoneda-banner-python311;
+            python = pkgs.python311;
+            inherit archRole layer nixpkgsRelease org pkgs repo space;
+          };
         };
         packages = rec {
           default = pythoneda-shared-pythoneda-domain-default;
           pythoneda-shared-pythoneda-domain-default =
-            pythoneda-shared-pythoneda-domain-python310;
+            pythoneda-shared-pythoneda-domain-python312;
           pythoneda-shared-pythoneda-domain-python38 =
             pythoneda-shared-pythoneda-domain-for { python = pkgs.python38; };
           pythoneda-shared-pythoneda-domain-python39 =
             pythoneda-shared-pythoneda-domain-for { python = pkgs.python39; };
           pythoneda-shared-pythoneda-domain-python310 =
             pythoneda-shared-pythoneda-domain-for { python = pkgs.python310; };
+          pythoneda-shared-pythoneda-domain-python311 =
+            pythoneda-shared-pythoneda-domain-for { python = pkgs.python311; };
+          pythoneda-shared-pythoneda-domain-python312 =
+            pythoneda-shared-pythoneda-domain-for { python = pkgs.python312; };
         };
       });
 }
