@@ -267,6 +267,9 @@ class FixPythonPath():
             current_folder = Path(os.getcwd()).resolve()
             root_folder = current_folder.parent.parent
 
+        if str(root_folder) == "/":
+            root_folder = Path.home() / "github" / "pythoneda"
+
         sys.path = instance.sort_syspath(sys.path)
 
         if args.command == "development":
