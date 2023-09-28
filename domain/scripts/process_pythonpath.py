@@ -263,16 +263,9 @@ class FixPythonPath():
         instance = cls()
         root_folder = args.root_folder
 
-        if root_folder is None:
-            current_folder = Path(os.getcwd()).resolve()
-            root_folder = current_folder.parent.parent
-
-        if str(root_folder) == "/":
-            root_folder = Path.home() / "github" / "pythoneda"
-
         sys.path = instance.sort_syspath(sys.path)
 
-        if args.command == "development":
+        if args.command == "development" and root_folder is not None:
             sys.path = instance.syspath_for_nix_develop(sys.path, root_folder)
 
         instance.print_syspath(sys.path)
