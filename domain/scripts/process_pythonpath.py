@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-domain/scripts/fix_pythonpath.py
+domain/scripts/process_pythonpath.py
 
-This file defines FixPythonPath class.
+This file defines ProcessPythonpath class.
 
-Copyright (C) 2023-today rydnr's pythoneda-shared-pythoneda/artifact
+Copyright (C) 2023-today rydnr's pythoneda-shared-pythoneda/domain-artifact
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@ from pathlib import Path
 import sys
 from typing import List
 
-class FixPythonPath():
+class ProcessPythonpath():
     """
     A script to rewrite PYTHONPATH to use local repositories.
 
-    Class name: FixPythonPath
+    Class name: ProcessPythonpath
 
     Responsibilities:
         - Analyze sys.path entries.
@@ -272,4 +272,4 @@ class FixPythonPath():
 
 if __name__ == "__main__":
 
-    FixPythonPath.main()
+    ProcessPythonpath.main()

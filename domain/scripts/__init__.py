@@ -20,4 +20,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 
-from .fix_pythonpath import FixPythonPath
+from .process_pythonpath import ProcessPythonpath
