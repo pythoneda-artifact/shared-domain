@@ -1,7 +1,7 @@
 """
-pythoneda/artifact/__init__.py
+scripts/__init__.py
 
-This file ensures pythoneda.artifact is a package.
+This file ensures scripts is a namespace.
 
 Copyright (C) 2023-today rydnr's pythoneda-shared-pythoneda/domain-artifact
 
@@ -20,4 +20,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 
-from .artifact import Artifact
+from .fix_pythonpath import FixPythonPath
