@@ -1,7 +1,7 @@
 """
 pythoneda/artifact/__init__.py
 
-This file ensures pythoneda.artifact is a package.
+This file ensures pythoneda.artifact is a namespace.
 
 Copyright (C) 2023-today rydnr's pythoneda-shared-pythoneda/domain-artifact
 
