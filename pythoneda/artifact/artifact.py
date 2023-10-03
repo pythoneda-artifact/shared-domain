@@ -22,10 +22,8 @@ from pythoneda.event import Event
 from pythoneda.event_emitter import EventEmitter
 from pythoneda.event_listener import EventListener
 from pythoneda.ports import Ports
-from pythoneda.shared.artifact_changes.events.change_committed import ChangeCommitted
-from pythoneda.shared.git.git_repo import GitRepo
-from typing import List, Type
-
+from pythoneda.shared.artifact_changes.events import StagedChangesCommitted
+from pythoneda.shared.git import GitPush
 
 class Artifact(EventListener):
     """
@@ -43,9 +41,7 @@ class Artifact(EventListener):
 
     @classmethod
     @listen(StagedChangesCommitted)
-    async def listen_StagedChangesCommitted(
-        cls, event: StagedChangesCommitted
-    ) -> CommittedChangesPushed:
+    async def listen_StagedChangesCommitted(cls, event: StagedChangesCommitted) -> CommittedChangesPushed:
         """
         Gets notified of a StagedChangesCommitted event.
         Pushes the changes and emits a CommittedChangesPushed event.
@@ -54,15 +50,9 @@ class Artifact(EventListener):
         :return: An event notifying the changes have been pushed.
         :rtype: pythoneda.shared.artifact_changes.events.CommittedChangesPushed
         """
-        Domain.logger().debug(f"Received {type(event)}")
-        repository_url = GitRepo.remote_urls(event.change.repository_folder)["origin"][
-            0
-        ]
-        # retrieve changes from the cloned repository.
-        git_push = GitPush(event.change.repository_folder).push_branch(
-            event.change.branch
-        )
-        result = CommittedChangesPushed(event.repository_url, event.branch, event.id)
-        Domain.logger().debug(f"Emitting {type(result)}")
+        Artifact.logger().debug(f"Received {type(event)}")
+        git_push = GitPush(event.change.repository_folder).push_branch(event.change.branch)
+        result = CommittedChangesPushed(event.change.repository_url, event.change.branch, event.id)
+        Artifact.logger().debug(f"Emitting {type(result)}")
         await Ports.instance().resolve(EventEmitter).emit(result)
         return result
