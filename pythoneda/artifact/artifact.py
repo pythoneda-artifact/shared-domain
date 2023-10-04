@@ -18,11 +18,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from pythoneda.event import Event
-from pythoneda.event_emitter import EventEmitter
-from pythoneda.event_listener import EventListener
-from pythoneda.ports import Ports
-from pythoneda.shared.artifact_changes.events import StagedChangesCommitted
+from pythoneda import Event, EventEmitter, EventListener, listen, Ports
+from pythoneda.shared.artifact_changes.events import CommittedChangesPushed, StagedChangesCommitted
 from pythoneda.shared.git import GitPush
 
 class Artifact(EventListener):
@@ -51,7 +48,7 @@ class Artifact(EventListener):
         :rtype: pythoneda.shared.artifact_changes.events.CommittedChangesPushed
         """
         Artifact.logger().debug(f"Received {type(event)}")
-        git_push = GitPush(event.change.repository_folder).push_branch(event.change.branch)
+        git_push = GitPush(event.change.repository_folder).push_all()
         result = CommittedChangesPushed(event.change.repository_url, event.change.branch, event.id)
         Artifact.logger().debug(f"Emitting {type(result)}")
         await Ports.instance().resolve(EventEmitter).emit(result)
