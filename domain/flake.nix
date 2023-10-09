@@ -24,12 +24,18 @@
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
-      url = "github:pythoneda-shared-pythoneda/banner/0.0.6";
+      url = "github:pythoneda-shared-pythoneda/banner/0.0.7";
     };
   };
   outputs = inputs:
     with inputs;
-    flake-utils.lib.eachDefaultSystem (system:
+    let
+      defaultSystems = flake-utils.lib.defaultSystems;
+      supportedSystems = if builtins.elem "armv6l-linux" defaultSystems then
+        defaultSystems
+      else
+        defaultSystems ++ [ "armv6l-linux" ];
+    in flake-utils.lib.eachSystem supportedSystems (system:
       let
         org = "pythoneda-shared-pythoneda";
         repo = "domain";
