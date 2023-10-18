@@ -24,7 +24,7 @@
     pythoneda-shared-pythoneda-banner = {
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixos.follows = "nixos";
-      url = "github:pythoneda-shared-pythoneda/banner/0.0.8";
+      url = "github:pythoneda-shared-pythoneda/banner/0.0.13";
     };
   };
   outputs = inputs:
@@ -39,8 +39,8 @@
       let
         org = "pythoneda-shared-pythoneda";
         repo = "domain";
-        version = "0.0.2";
-        sha256 = "sha256-SglPHqZQZOePxeFnD6NFsopk//FK6qbwrme8nJUNlu0=";
+        version = "0.0.3";
+        sha256 = "sha256-T5uTaN/g4uAKa4vfafSfoiTbDM4TL850oAqvlrr15R8=";
         pname = "${org}-${repo}";
         pkgs = import nixos { inherit system; };
         description = "Support for event-driven architectures in Python";
