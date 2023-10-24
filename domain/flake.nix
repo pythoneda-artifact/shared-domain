@@ -39,8 +39,8 @@
       let
         org = "pythoneda-shared-pythoneda";
         repo = "domain";
-        version = "0.0.4";
-        sha256 = "sha256-bLUKarpXzt6yhCN7zKw964dfg+RlkaOYRnIBoXxQJPw=";
+        version = "0.0.5";
+        sha256 = "0k3ma0n58qw0sin16caga0cm2xz5yrjd2ssf7q926nj8d87353fd";
         pname = "${org}-${repo}";
         pkgs = import nixos { inherit system; };
         description = "Support for event-driven architectures in Python";
@@ -51,7 +51,8 @@
         space = "D";
         layer = "D";
         nixosVersion = builtins.readFile "${nixos}/.version";
-        nixpkgsRelease = "nixos-${nixosVersion}";
+        nixpkgsRelease =
+          builtins.replaceStrings [ "\n" ] [ "" ] "nixos-${nixosVersion}";
         shared = import "${pythoneda-shared-pythoneda-banner}/nix/shared.nix";
         pythoneda-shared-pythoneda-domain-for = { python }:
           let
