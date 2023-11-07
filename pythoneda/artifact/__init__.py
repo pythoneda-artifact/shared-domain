@@ -18,13 +18,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-__path__ = __import__('pkgutil').extend_path(__path__, __name__)
+__path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
-from .artifact import Artifact
-from .artifact_changes_committed_listener import ArtifactChangesCommittedListener
-from .artifact_commit_pushed_listener import ArtifactCommitPushedListener
-from .artifact_commit_tagged_listener import ArtifactCommitTaggedListener
-from .committed_changes_pushed_listener import CommittedChangesPushedListener
-from .committed_changes_tagged_listener import CommittedChangesTaggedListener
-from .staged_changes_committed_listener import StagedChangesCommittedListener
-from .tag_pushed_listener import TagPushedListener
+from .domain_artifact_tag_pushed_listener import DomainArtifactTagPushedListener
+from .domain import Domain

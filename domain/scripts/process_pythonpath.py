@@ -25,7 +25,8 @@ from pathlib import Path
 import sys
 from typing import List
 
-class ProcessPythonpath():
+
+class ProcessPythonpath:
     """
     A script to rewrite PYTHONPATH to use local repositories.
 
@@ -46,7 +47,7 @@ class ProcessPythonpath():
         """
         super().__init__()
 
-    def find_modules_under(self, rootFolder:str) -> List[str]:
+    def find_modules_under(self, rootFolder: str) -> List[str]:
         """
         Retrieves the names of the Python modules under given folder.
         :param rootFolder: The root folder.
@@ -56,17 +57,17 @@ class ProcessPythonpath():
         """
         result = []
 
-        exclude_dirs = {'.git', '__pycache__'}
+        exclude_dirs = {".git", "__pycache__"}
         for dirpath, dirnames, filenames in os.walk(rootFolder):
-            dirnames[:] = [d for d in dirnames if d not in exclude_dirs ]
-            if '__init__.py' in filenames:
+            dirnames[:] = [d for d in dirnames if d not in exclude_dirs]
+            if "__init__.py" in filenames:
                 module = os.path.relpath(dirpath, start=rootFolder)
                 if module not in result:
                     result.append(module.replace("/", "."))
 
         return result
 
-    def find_modules_under_pythoneda(self, rootFolder:str) -> List[str]:
+    def find_modules_under_pythoneda(self, rootFolder: str) -> List[str]:
         """
         Retrieves the names of the Python modules under given folder.
         :param rootFolder: The root folder.
@@ -76,10 +77,10 @@ class ProcessPythonpath():
         """
         result = []
 
-        exclude_dirs = {'.git', '__pycache__'}
+        exclude_dirs = {".git", "__pycache__"}
         for dirpath, dirnames, filenames in os.walk(rootFolder):
-            dirnames[:] = [d for d in dirnames if d not in exclude_dirs ]
-            if '__init__.py' in filenames:
+            dirnames[:] = [d for d in dirnames if d not in exclude_dirs]
+            if "__init__.py" in filenames:
                 aux = os.path.relpath(dirpath, start=rootFolder)
                 parts = aux.split("/", 2)
                 if len(parts) > 2:
@@ -89,7 +90,9 @@ class ProcessPythonpath():
 
         return result
 
-    def find_path_of_pythoneda_package_with_modules(self, rootFolder:str, modules:List[str]) -> str:
+    def find_path_of_pythoneda_package_with_modules(
+        self, rootFolder: str, modules: List[str]
+    ) -> str:
         """
         Retrieves the path of the package with given modules.
         :param rootFolder: The root folder.
@@ -100,22 +103,21 @@ class ProcessPythonpath():
         :rtype: str
         """
         module_set = set(modules)
-        exclude_dirs = {'.git', '__pycache__'}
+        exclude_dirs = {".git", "__pycache__"}
         _, orgs, _ = next(os.walk(rootFolder))
-        orgs[:] = [d for d in orgs if d not in exclude_dirs ]
+        orgs[:] = [d for d in orgs if d not in exclude_dirs]
         for org in orgs:
             org_folder, repos, _ = next(os.walk(Path(rootFolder) / org))
-            repos[:] = [d for d in repos if d not in exclude_dirs ]
+            repos[:] = [d for d in repos if d not in exclude_dirs]
             for repo in repos:
                 current_modules = self.find_modules_under(Path(org_folder) / repo)
                 if set(current_modules) == module_set:
                     return Path(org_folder) / repo
 
-
         # If no directory contains all modules, return None
         return None
 
-    def syspath_for_nix_develop(self, sysPath:List, rootFolder: str) -> List:
+    def syspath_for_nix_develop(self, sysPath: List, rootFolder: str) -> List:
         """
         Fixes the sys.path collection replacing any PythonEDA entries with their development folders.
         :param sysPath: The sys.path list.
@@ -129,25 +131,31 @@ class ProcessPythonpath():
         custom_modules = set(self.find_modules_under_pythoneda(rootFolder))
         for path in sysPath:
             modules_under_path = self.find_modules_under(path)
-            if len(modules_under_path) > 0 and modules_under_path[0] == 'pythoneda':
+            if len(modules_under_path) > 0 and modules_under_path[0] == "pythoneda":
                 if all(item in custom_modules for item in modules_under_path):
-                    package_path = self.find_path_of_pythoneda_package_with_modules(rootFolder, modules_under_path)
+                    package_path = self.find_path_of_pythoneda_package_with_modules(
+                        rootFolder, modules_under_path
+                    )
                     if package_path:
                         result.append(str(package_path))
                     else:
                         result.append(path)
-                        sys.stderr.write(f'Warning: Could not find alternate path for {path} under {rootFolder} containing modules {modules_under_path}\n')
+                        sys.stderr.write(
+                            f"Warning: Could not find alternate path for {path} under {rootFolder} containing modules {modules_under_path}\n"
+                        )
                 else:
-                    sys.stderr.write(f'Warning: submodules mismatch for {path}:\n')
+                    sys.stderr.write(f"Warning: submodules mismatch for {path}:\n")
                     for item in modules_under_path:
                         if item not in custom_modules:
-                            sys.stderr.write(f'- {item} not present in {custom_modules}\n')
+                            sys.stderr.write(
+                                f"- {item} not present in {custom_modules}\n"
+                            )
             else:
                 result.append(path)
 
         return result
 
-    def sort_syspath(self, sysPath:List) -> List:
+    def sort_syspath(self, sysPath: List) -> List:
         """
         Sorts the sys.path entries according to the depth of their .root files.
         :param sysPath: The sys.path list.
@@ -170,7 +178,7 @@ class ProcessPythonpath():
         result.extend(unaffected)
         return result
 
-    def find_root_depth(self, path:str) -> int:
+    def find_root_depth(self, path: str) -> int:
         """
         Retrieves the depth of the root, if it exists.
         For example,
@@ -185,11 +193,13 @@ class ProcessPythonpath():
         result = None
         root_file = self.find_file(".pythoneda-root", path)
         if root_file:
-            result = self.count_subfolders(self.relative_path(path, Path(root_file).parent))
+            result = self.count_subfolders(
+                self.relative_path(path, Path(root_file).parent)
+            )
 
         return result
 
-    def find_file(self, targetFile:str, startDir:str='.') -> str:
+    def find_file(self, targetFile: str, startDir: str = ".") -> str:
         """
         Finds a given file within a folder tree.
         :param targetFile: The file to look for.
@@ -200,12 +210,12 @@ class ProcessPythonpath():
         :rtype: str
         """
         start_path = Path(startDir)
-        for filepath in start_path.rglob('*'):
+        for filepath in start_path.rglob("*"):
             if filepath.name == targetFile:
                 return filepath
         return None
 
-    def relative_path(self, base:str, target:str) -> str:
+    def relative_path(self, base: str, target: str) -> str:
         """
         Retrieves the relative path among two folders.
         :param base: The base folder.
@@ -223,7 +233,7 @@ class ProcessPythonpath():
         except ValueError:
             return None
 
-    def count_subfolders(self, path:str) -> int:
+    def count_subfolders(self, path: str) -> int:
         """
         Retrieves the number of subfolders of given path.
         :param path: The path to analyze.
@@ -233,7 +243,7 @@ class ProcessPythonpath():
         """
         return len(Path(path).parts)
 
-    def print_syspath(self, sysPath:List):
+    def print_syspath(self, sysPath: List):
         """
         Prints the syspath so it can be used to define the PYTHONPATH variable.
         :param sysPath: The sys.path list.
@@ -251,7 +261,7 @@ class ProcessPythonpath():
         parser = argparse.ArgumentParser(description="Processes PYTHONPATH")
         parser.add_argument(
             "command",
-            choices=["sort", "development" ],
+            choices=["sort", "development"],
             nargs="?",
             default=None,
             help="The PYTHONPATH processing choices",
@@ -271,6 +281,6 @@ class ProcessPythonpath():
 
         instance.print_syspath(sys.path)
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     ProcessPythonpath.main()
