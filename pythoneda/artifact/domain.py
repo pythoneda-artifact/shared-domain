@@ -18,12 +18,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from .domain_artifact_tag_pushed_listener import DomainArtifactTagPushedListener
 from pythoneda.shared.artifact import PythonPackage
-from pythoneda.shared.artifact_changes.events import (
-    ArtifactChangesCommitted,
-    ArtifactTagPushed,
-)
 from pythoneda.shared.nix_flake import (
     FlakeUtilsNixFlake,
     License,
@@ -50,9 +45,9 @@ class Domain(PythonPackage):
         :param repositoryFolder: The repository folder.
         :type repositoryFolder: str
         """
-        flake_utils = FlakeUtilsNixFlake.default().to_input()
-        nixos = NixosNixFlake.default().to_input()
-        banner = PythonedaSharedPythonedaBannerNixFlake.default().to_input()
+        flake_utils = FlakeUtilsNixFlake.default()
+        nixos = NixosNixFlake.default()
+        banner = PythonedaSharedPythonedaBannerNixFlake.default()
         inputs = [flake_utils, nixos, banner]
         version = self.find_out_version(repositoryFolder)
         super().__init__(

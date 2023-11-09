@@ -19,21 +19,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda import attribute, EventListener
-from pythoneda.shared.artifact_changes.events import (
+from pythoneda.shared.artifact import Change
+from pythoneda.shared.artifact.artifact.events import (
     ArtifactChangesCommitted,
     ArtifactTagPushed,
 )
 from pythoneda.shared.git import (
     GitAdd,
-    GitAddFailed,
     GitCommit,
-    GitCommitFailed,
     GitRepo,
-)
-from pythoneda.shared.nix_flake import (
-    FlakeUtilsNixFlake,
-    License,
-    PythonedaSharedPythonedaBannerNixFlake,
 )
 
 
@@ -59,8 +53,8 @@ class DomainArtifactTagPushedListener(EventListener):
         super().__init__()
         self._repository_folder = folder
 
-    @attribute
     @property
+    @attribute
     def repository_folder(cls) -> str:
         """
         Retrieves the repository folder.
