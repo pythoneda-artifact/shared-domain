@@ -67,7 +67,7 @@ class ProcessPythonpath:
 
         return result
 
-    def find_modules_under_pythoneda(self, rootFolder: str) -> List[str]:
+    def find_modules_under_folder(self, rootFolder: str) -> List[str]:
         """
         Retrieves the names of the Python modules under given folder.
         :param rootFolder: The root folder.
@@ -90,7 +90,7 @@ class ProcessPythonpath:
 
         return result
 
-    def find_path_of_pythoneda_package_with_modules(
+    def find_path_of_package_with_modules(
         self, rootFolder: str, modules: List[str]
     ) -> str:
         """
@@ -117,6 +117,16 @@ class ProcessPythonpath:
         # If no directory contains all modules, return None
         return None
 
+    def find_out_root_folder_for(self, namespace: str) -> str:
+        """
+        Finds out the root folder for given namespace.
+        :param namespace: The namespace.
+        :type namespace: str
+        :return: The root folder, of None if none found.
+        :rtype: str
+        """
+        return os.environ.get(f"PYTHONEDA_{namespace.upper()}_ROOT_FOLDER")
+
     def syspath_for_nix_develop(self, sysPath: List, rootFolder: str) -> List:
         """
         Fixes the sys.path collection replacing any PythonEDA entries with their development folders.
@@ -128,20 +138,35 @@ class ProcessPythonpath:
         :rtype: List
         """
         result = []
-        custom_modules = set(self.find_modules_under_pythoneda(rootFolder))
+        custom_modules = set(self.find_modules_under_folder(rootFolder))
+        extra_namespaces = os.environ.get("PYTHONEDA_EXTRA_NAMESPACES")
+        namespaces = ["pythoneda"]
+        if extra_namespaces is not None:
+            for namespace in extra_namespaces.split(":"):
+                namespaces.append(namespace)
+                namespace_root_folder = self.find_out_root_folder_for(namespace)
+                if namespace_root_folder is not None:
+                    custom_modules.update(
+                        set(self.find_modules_under_folder(namespace_root_folder))
+                    )
         for path in sysPath:
             modules_under_path = self.find_modules_under(path)
-            if len(modules_under_path) > 0 and modules_under_path[0] == "pythoneda":
+            if len(modules_under_path) > 0 and modules_under_path[0] in namespaces:
                 if all(item in custom_modules for item in modules_under_path):
-                    package_path = self.find_path_of_pythoneda_package_with_modules(
-                        rootFolder, modules_under_path
+                    namespace_root_folder = rootFolder
+                    if modules_under_path[0] != "pythoneda":
+                        namespace_root_folder = self.find_out_root_folder_for(
+                            modules_under_path[0]
+                        )
+                    package_path = self.find_path_of_package_with_modules(
+                        namespace_root_folder, modules_under_path
                     )
                     if package_path:
                         result.append(str(package_path))
                     else:
                         result.append(path)
                         sys.stderr.write(
-                            f"Warning: Could not find alternate path for {path} under {rootFolder} containing modules {modules_under_path}\n"
+                            f"Warning: Could not find alternate path for {path} under {namespace_root_folder} containing modules {modules_under_path}\n"
                         )
                 else:
                     sys.stderr.write(f"Warning: submodules mismatch for {path}:\n")
