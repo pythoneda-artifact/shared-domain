@@ -19,11 +19,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda import attribute, EventListener
-from pythoneda.shared.artifact import Change
 from pythoneda.shared.artifact.artifact.events import (
     ArtifactChangesCommitted,
     ArtifactTagPushed,
 )
+from pythoneda.shared.artifact.events import Change
 from pythoneda.shared.git import (
     GitAdd,
     GitCommit,
