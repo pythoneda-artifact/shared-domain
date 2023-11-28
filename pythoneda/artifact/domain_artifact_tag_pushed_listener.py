@@ -41,7 +41,7 @@ class DomainArtifactTagPushedListener(EventListener):
         - Receive ArtifactTagPushed events and react accordingly.
 
     Collaborators:
-        - pythoneda.shared.artifact_changes.events.ArtifactTagPushed
+        - pythoneda.shared.artifact.events.ArtifactTagPushed
     """
 
     def __init__(self, repositoryFolder: str):
@@ -70,7 +70,7 @@ class DomainArtifactTagPushedListener(EventListener):
         :param event: The event.
         :type event: pythoneda.shared.artifact_changes.events.ArtifactTagPushed
         :return: An event representing the commit.
-        :rtype: pythoneda.shared.artifact_changes.events.ArtifactChangesCommitted
+        :rtype: pythoneda.shared.artifact.events.ArtifactChangesCommitted
         """
         result = None
         DomainArtifactTagPushedListener.logger().info(
@@ -83,7 +83,7 @@ class DomainArtifactTagPushedListener(EventListener):
             )
         else:
             DomainArtifactTagPushedListener.logger().info(
-                f"Updating pythoneda-shared-pythoneda/domain-artifact since {event.name} updated to version {event.version}"
+                f"Updating pythoneda-shared-pythoneda-def/domain since {event.name} updated to version {event.version}"
             )
             # update the affected dependency
             updated_dep = dep.for_version(event.version)
