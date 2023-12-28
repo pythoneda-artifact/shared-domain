@@ -18,6 +18,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+import os
 from pythoneda import attribute, EventListener
 from pythoneda.shared.artifact.artifact.events import (
     ArtifactChangesCommitted,
@@ -51,11 +52,11 @@ class DomainArtifactTagPushedListener(EventListener):
         :type repositoryFolder: str
         """
         super().__init__()
-        self._repository_folder = folder
+        self._repository_folder = repositoryFolder
 
     @property
     @attribute
-    def repository_folder(cls) -> str:
+    def repository_folder(self) -> str:
         """
         Retrieves the repository folder.
         :return: Such folder.
@@ -86,7 +87,6 @@ class DomainArtifactTagPushedListener(EventListener):
                 f"Updating pythoneda-shared-pythoneda-def/domain since {event.name} updated to version {event.version}"
             )
             # update the affected dependency
-            updated_dep = dep.for_version(event.version)
             # generate the flake
             self.generate_flake(self.repository_folder)
             # refresh flake.lock
