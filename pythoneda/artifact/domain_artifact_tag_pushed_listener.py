@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/artifact/domain_artifact_tag_pushed_listener.py
 
