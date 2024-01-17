@@ -1,8 +1,8 @@
 # vim: set fileencoding=utf-8
 """
-pythoneda/artifact/__init__.py
+pythoneda/artifact/shared/__init__.py
 
-This file ensures pythoneda.artifact is a namespace.
+This file ensures pythoneda.artifact.shared is a namespace.
 
 Copyright (C) 2023-today rydnr's pythoneda-artifact/shared-domain
 

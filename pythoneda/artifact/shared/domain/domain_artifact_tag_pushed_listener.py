@@ -1,10 +1,10 @@
 # vim: set fileencoding=utf-8
 """
-pythoneda/artifact/domain_artifact_tag_pushed_listener.py
+pythoneda/artifact/shared/domain/domain_artifact_tag_pushed_listener.py
 
 This file declares the DomainArtifactTagPushedListener class.
 
-Copyright (C) 2023-today rydnr's pythoneda-shared-pythoneda/domain-artifact
+Copyright (C) 2023-today rydnr's pythoneda-artifact/shared-domain
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import os
-from pythoneda import attribute, EventListener
+from pythoneda.shared import attribute, EventListener
 from pythoneda.shared.artifact.artifact.events import (
     ArtifactChangesCommitted,
     ArtifactTagPushed,

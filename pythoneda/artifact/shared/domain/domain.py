@@ -1,10 +1,10 @@
 # vim: set fileencoding=utf-8
 """
-pythoneda/artifact/domain.py
+pythoneda/artifact/shared/domain/domain.py
 
 This file declares the Domain class.
 
-Copyright (C) 2023-today rydnr's pythoneda-shared-pythoneda/domain-artifact
+Copyright (C) 2023-today rydnr's pythoneda-artifact/shared-domain
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
