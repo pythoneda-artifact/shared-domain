@@ -80,3 +80,11 @@ class Domain(PythonPackage):
         """
         #        return "https://github.com/pythoneda-shared-pythoneda/domain-artifact"
         return "https://github.com/rydnr/sandbox-artifact"
+# vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
+# Local Variables:
+# mode: python
+# python-indent-offset: 4
+# tab-width: 4
+# indent-tabs-mode: nil
+# fill-column: 79
+# End:
