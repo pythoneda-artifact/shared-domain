@@ -4,7 +4,7 @@ pythoneda/artifact/shared/domain/domain.py
 
 This file declares the Domain class.
 
-Copyright (C) 2023-today rydnr's pythoneda-artifact/shared-domain
+Copyright (C) 2024-today rydnr's pythoneda-shared-pythonlang-artf/domain
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -80,6 +80,8 @@ class Domain(PythonPackage):
         """
         #        return "https://github.com/pythoneda-shared-pythoneda/domain-artifact"
         return "https://github.com/rydnr/sandbox-artifact"
+
+
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
 # Local Variables:
 # mode: python
