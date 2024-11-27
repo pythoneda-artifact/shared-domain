@@ -20,21 +20,21 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from pythoneda.shared.artifact import PythonPackage
-from pythoneda.shared.nix_flake import (
+from pythoneda.shared.nix.flake import (
     FlakeUtilsNixFlake,
     License,
-    PythonedaSharedPythonedaBannerNixFlake,
+    PythonedaSharedPythonlangBannerNixFlake,
 )
 
 
 class Domain(PythonPackage):
     """
-    Represents the pythoneda-shared-pythoneda/domain Python package.
+    Represents the pythoneda-shared-pythonlang/domain Python package.
 
     Class name: Domain
 
     Responsibilities:
-        - Model the pythoneda-shared-pythoneda/domain Python package and its metadata.
+        - Model the pythoneda-shared-pythonlang/domain Python package and its metadata.
 
     Collaborators:
         - pythoneda.shared.artifact.PythonPackage
@@ -48,22 +48,22 @@ class Domain(PythonPackage):
         """
         flake_utils = FlakeUtilsNixFlake.default()
         nixos = NixosNixFlake.default()
-        banner = PythonedaSharedPythonedaBannerNixFlake.default()
+        banner = PythonedaSharedPythonlangBannerNixFlake.default()
         inputs = [flake_utils, nixos, banner]
         version = self.find_out_version(repositoryFolder)
         super().__init__(
-            "pythoneda-shared-pythoneda-domain",
+            "pythoneda-shared-pythonlang-domain",
             self.find_out_version(repositoryFolder),
-            f"https://github.com/pythoneda-shared-pythoneda/domain-artifact/{version}?dir=domain",
+            f"https://github.com/pythoneda-shared-pythonlang-def/domain/{version}",
             inputs,
             templateSubfolder,
             "Support for event-driven architectures in Python",
-            "https://github.com/pythoneda-shared-pythoneda/domain",
+            "https://github.com/pythoneda-shared-pythonlang/domain",
             License.from_id(
                 Gpl3.license_type(),
                 "2023",
                 "rydnr",
-                "https://github.com/pythoneda-shared-pythoneda/domain",
+                "https://github.com/pythoneda-shared-pythonlang/domain",
             ),
             ["rydnr <github@acm-sl.org>"],
             2023,
@@ -78,8 +78,7 @@ class Domain(PythonPackage):
         :return: Such url.
         :rtype: str
         """
-        #        return "https://github.com/pythoneda-shared-pythoneda/domain-artifact"
-        return "https://github.com/rydnr/sandbox-artifact"
+        return "https://github.com/pythoneda-shared-pythonlang-artf/domain"
 
 
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
